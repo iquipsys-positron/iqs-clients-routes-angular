@@ -1,0 +1,87 @@
+// iqs-dot-traces-panel {
+//     .pip-search-panel {
+//         .iqs-dot-traces-search-results-panel {
+//             .iqs-global-search-panel {
+//                 .pip-search-container {
+//                     md-autocomplete {
+//                         input {
+//                             color: white!important;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+.iqs-dot-traces-search-results-panel {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: calc(100% - 32px);
+    max-width: 350px;
+    .iqs-global-search-panel {
+        max-width: 350px;
+        .iqs-search-default-panel {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            md-list-item {
+                color: white;
+                &.pip-focusable.md-focused.md-focused-opacity {
+                    background-color: rgba(255, 255, 255, 0.56) !important;
+                }
+            }
+            &.pip-scroll ::-webkit-scrollbar-thumb {
+                background-color: rgba(255, 255, 255, 0.56);
+            }
+        }
+    }
+    .pip-search-container {
+        z-index: 52;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        md-autocomplete {
+            background-color: transparent;
+            input,
+            input::placeholder {
+                color: white !important;
+            }
+        }
+        md-autocomplete button md-icon path {
+            fill: white !important;
+        }
+        md-icon {
+            color: white;
+        }
+    }
+    .pip-search-panel {
+        transition: all .5s ease;
+        opacity: 0;
+        z-index: 50;
+        &.show {
+            opacity: 1;
+            z-index: 52;
+        }
+    }
+    .results-panel {
+        height: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        transition: all .5s ease;
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 52;
+        md-icon,
+        span {
+            color: white;
+        }
+        .md-button[disabled] md-icon {
+            color: rgba(255, 255, 255, 0.38) !important;
+        }
+        &.show {
+            opacity: 1;
+            z-index: 52;
+            height: 54px;
+        }
+    }
+}

@@ -1,0 +1,53 @@
+<div class="info-block tp0 bp0" ng-if="$ctrl.model">
+    <div class="pip-ref-item">
+        <div class="pip-pic">
+            <pip-avatar class="pip-face" pip-rebind="true" pip-id="$ctrl.model.object.id" pip-name="$ctrl.model.object.name">
+            </pip-avatar>
+        </div>
+        <div class="pip-content">
+            <p class="pip-title">{{ $ctrl.model.object.name }}</p>
+            <p class="pip-subtitle">{{ $ctrl.model.object | formatObjectSubtitle }}</p>
+        </div>
+    </div>
+
+    <div class="layout-row layout-align-start-center divider-bottom bm8 bp8">
+        <div class="text-body1 flex">
+            {{ ::'UPDATE_TIME' | translate }}
+        </div>
+        <div class="text-body2 flex">
+            {{ $ctrl.model.time | formatMiddleDateLongTime }}
+        </div>
+    </div>
+    <div class="layout-row layout-align-start-center divider-bottom bm8 bp8">
+        <div class="text-body1 flex">
+            {{ ::'LATITUDE' | translate }}
+        </div>
+        <div class="text-body2 flex">
+            {{ $ctrl.model.latitude }}
+        </div>
+    </div>
+    <div class="layout-row layout-align-start-center divider-bottom bm8 bp8">
+        <div class="text-body1 flex">
+            {{ ::'LONGITUDE' | translate }}
+        </div>
+        <div class="text-body2 flex">
+            {{ $ctrl.model.longitude }}
+        </div>
+    </div>
+    <div class="layout-row layout-align-start-center divider-bottom bm8 bp8" ng-if="$ctrl.model.agl || $ctrl.model.agl == 0">
+        <div class="text-body1 flex">
+            {{ ::'DIRECTION' | translate }}
+        </div>
+        <div class="text-body2 flex">
+            {{ $ctrl.model.agl ? $ctrl.model.agl : '-' }} {{ $ctrl.model.agl ? 'DEG' : '' | translate }}
+        </div>
+    </div>
+    <div class="layout-row layout-align-start-center bm8 bp8" ng-if="$ctrl.model.spd || $ctrl.model.spd == 0">
+        <div class="text-body1 flex">
+            {{ ::'SPEED' | translate }}
+        </div>
+        <div class="text-body2 flex">
+            {{ $ctrl.model.spd ? $ctrl.model.spd : '-' }} {{ $ctrl.model.spd ? 'KM_IN_H' : '' | translate }}
+        </div>
+    </div>
+</div>

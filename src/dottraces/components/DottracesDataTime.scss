@@ -1,0 +1,32 @@
+.iqs-dottraces-data-time-panel {
+    width: 100%;
+    .iqs-small,
+    .iqs-big {
+        height: 48px;
+        md-icon {
+            color: #fff;
+        }
+    }
+    .iqs-small {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+    .iqs-big {
+        position: absolute;
+        bottom: 24px;
+        border-radius: 5px;
+        left: calc(50% - 150px);
+    }
+    .iqs-reletive {
+        position: reletive;
+    }
+    .iqs-text {
+        cursor: pointer; //line-height: 48px;
+        vertical-align: middle;
+    }
+    .iqs-avatar-button {
+        height: 48px;
+        z-index: 40;
+    }
+}

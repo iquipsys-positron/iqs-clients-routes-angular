@@ -1,0 +1,23 @@
+<div class="pip-time-autocomplete-container">
+    <div class="iqs-time-backdrop" ng-click="$ctrl.onBackdropClick($event)" ng-show="$ctrl.opened"></div>
+
+    <md-input-container md-no-float>
+        <label ng-if="$ctrl.timeLabel">{{ ::$ctrl.timeLabel | translate }}</label>
+        <input id="pip-time-input" ng-model="$ctrl.selectedItem" placeholder="{{ ::$ctrl.placeholder | translate }}"
+               xxxmaxlength="5" xxxng-pattern="/^(?:(?:1[0-2]|0?[1-9]):[0-5][0-9])?$/" ng-disabled="$ctrl.ngDisabled"
+               ng-focus="$ctrl.onInputFocus()" ng-blur="$ctrl.onInputBlur()" ng-keydown="$ctrl.onKeyDown($event)"
+               ng-click="$ctrl.onInputFocus($event)" ng-change="$ctrl.onChange()">
+    </md-input-container>
+    <div class="iqs-time-list-panel pip-scroll pip-scroll-y" xxng-show="$ctrl.opened">
+        <md-list class="pip-ref-list tp0 bp0">
+
+            <md-list-item class="pip-ref-list-item pointer" ng-click="$ctrl.selectItem(time)" ng-class="{ 'selected' : $index == $ctrl.selectedIndex }"
+                          id="{{ 'time-list-item-' + $index }}" md-ink-ripple ng-repeat="time in $ctrl.timeCollection track by $index">
+                <div class="pip-content">
+                    {{ time }}
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+
+</div>

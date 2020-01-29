@@ -1,0 +1,29 @@
+<div class="pip-search-panel rp0 lp0 flex map-control-container" ng-class="{ 'show': !$ctrl.showResults }">
+    <iqs-global-search-panel iqs-search-query="$ctrl.search" iqs-search-callback="$ctrl.onSearchResult(query)"
+                             iqs-placeholder="'FIND_OBJECTS'" iqs-menu-class="'iqs-map-search-menu'" iqs-default-values="$ctrl.defaultCollection"
+                             iqs-search-collection="$ctrl.searchedCollection">
+    </iqs-global-search-panel>
+</div>
+
+<div class="results-panel lp0 rp0 p8 layout-row" ng-class="{ 'show': $ctrl.showResults }" ng-if="$ctrl.showResults">
+    <md-button class="md-icon-button" ng-click="$ctrl.onCancelClick()">
+        <md-icon md-svg-icon="icons:cross"></md-icon>
+    </md-button>
+    <div class="flex layout-row layout-align-start-center" ng-click="$ctrl.focusCurrent()" ng-class="{ 'pointer opacity-secondary': !$ctrl.isFocused }">
+        <span class="text-overflow text-body2">
+            {{ $ctrl.searchResults[$ctrl.selectedIndex].name || $ctrl.searchResults[$ctrl.selectedIndex].id }}
+        </span>
+        <span class="text-body2">
+            {{ ' ' }}({{ $ctrl.selectedIndex + 1 }} / {{ $ctrl.searchResults.length }})
+        </span>
+    </div>
+    <div class="flex-fixed layout-row">
+        <md-button class="flex md-icon-button" ng-disabled="$ctrl.selectedIndex === 0" ng-click="$ctrl.onPrevClick()">
+            <md-icon md-svg-icon="icons:chevron-big-left"></md-icon>
+        </md-button>
+        <md-button class="flex md-icon-button" ng-disabled="$ctrl.selectedIndex === $ctrl.searchResults.length - 1"
+                   ng-click="$ctrl.onNextClick()">
+            <md-icon md-svg-icon="icons:chevron-big-right"></md-icon>
+        </md-button>
+    </div>
+</div>

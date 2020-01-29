@@ -1,0 +1,76 @@
+<pip-map-popup-content>
+    <div class="info-block tp0 bp0">
+        <div class="pip-ref-item">
+            <div class="pip-pic">
+                <pip-avatar class="pip-face" pip-rebind="true" pip-id="parameter.model.object.id" pip-name="parameter.model.object.name">
+                </pip-avatar>
+            </div>
+            <div class="pip-content">
+                <p class="pip-title">{{ parameter.model.object.name }}</p>
+                <p class="pip-subtitle">{{ parameter.model.object | formatObjectSubtitle }}</p>
+            </div>
+        </div>
+
+        <div class="layout-row layout-align-start-center divider-bottom bm8 bp8">
+            <div class="text-body1 flex">
+                {{ ::'UPDATE_TIME' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.time | formatMiddleDateLongTime }}
+            </div>
+        </div>
+        <div class="layout-row layout-align-start-center divider-bottom bm8 bp8" ng-if="parameter.model.parking">
+            <div class="text-body1 flex">
+                {{ ::'PARKING_TIME' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.duration_time | formatTimeShort }}
+            </div>
+        </div>
+        <div class="layout-row layout-align-start-center divider-bottom bm8 bp8" ng-if="parameter.model.stoping">
+            <div class="text-body1 flex">
+                {{ ::'STOPING_TIME' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.duration_time | formatTimeShort }}
+            </div>
+        </div>
+        <div class="layout-row layout-align-start-center divider-bottom bm8 bp8">
+            <div class="text-body1 flex">
+                {{ ::'LATITUDE' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.latitude }}
+            </div>
+        </div>
+
+        <div class="layout-row layout-align-start-center divider-bottom bm8 bp8">
+            <div class="text-body1 flex">
+                {{ ::'LONGITUDE' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.longitude }}
+            </div>
+        </div>
+
+        <div class="layout-row layout-align-start-center divider-bottom bm8 bp8" ng-if="!parameter.model.parking && !parameter.model.stoping && (parameter.model.agl || parameter.model.agl == 0)">
+            <div class="text-body1 flex">
+                {{ ::'DIRECTION' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.agl ? parameter.model.agl : '-' }} {{ parameter.model.agl ? 'DEG' : '' | translate
+                }}
+            </div>
+        </div>
+
+        <div class="layout-row layout-align-start-center bm8 bp8" ng-if="!parameter.model.parking && !parameter.model.stoping && (parameter.model.spd || parameter.model.spd == 0)">
+            <div class="text-body1 flex">
+                {{ ::'SPEED' | translate }}
+            </div>
+            <div class="text-body2 flex">
+                {{ parameter.model.spd ? parameter.model.spd : '-' }} {{ parameter.model.spd ? 'KM_IN_H' : '' |
+                translate }}
+            </div>
+        </div>
+    </div>
+</pip-map-popup-content>

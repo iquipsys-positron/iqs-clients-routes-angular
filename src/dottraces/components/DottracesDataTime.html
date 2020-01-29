@@ -1,0 +1,39 @@
+<div aria-label="Dot traces config" class="m0 iqs-avatar-button layout-column color-accent-bg" ng-class="{'iqs-small divider-top': !$ctrl.pipMedia('gt-sm'), 'iqs-big': $ctrl.pipMedia('gt-sm')}">
+	<div class="layout-row flex-fixed iqs-avatar-button layout-align-start-center" ng-if="$ctrl.state === 'data' || $ctrl.state === 'empty'">
+		<md-button class="md-icon-button flex-fixed" ng-click="$ctrl.onEditClick()" aria-label="current user" tabindex="-1">
+			<md-icon md-svg-icon="icons:pen"></md-icon>
+		</md-button>
+
+		<div class="layout-column layout-align-center-start flex">
+			<div ng-click="$ctrl.onEditClick()" ng-if="!$ctrl.date" class="iqs-text">{{ ::'CONFIG_DOT_TRACES_SET_TIME_INTERVAL'
+				| translate }}</div>
+
+			<div ng-click="$ctrl.onEditClick()" ng-if="$ctrl.date" class="iqs-text">{{ $ctrl.date | formatMiddleDateTime }}</div>
+
+			<div ng-click="$ctrl.onEditClick()" ng-if="$ctrl.dateEnd" class="iqs-text">{{ $ctrl.dateEnd | formatMiddleDateTime
+				}}</div>
+		</div>
+		<md-button class="md-icon-button flex-fixed" ng-click="$ctrl.prev()" ng-disabled="!$ctrl.date" aria-label="current user"
+		           tabindex="-1">
+			<md-icon md-svg-icon="iqs:rev"></md-icon>
+		</md-button>
+		<md-button class="md-icon-button flex-fixed" aria-label="current user" ng-disabled="!$ctrl.date" tabindex="-1"
+		           ng-click="$ctrl.next()">
+			<md-icon md-svg-icon="iqs:fwd"></md-icon>
+		</md-button>
+	</div>
+
+	<div class="layout-row flex-fixed iqs-avatar-button layout-align-start-center" ng-if="$ctrl.state === 'progress'">
+		<div class="lm24 rm24 layout-column layout-align-center-start flex">
+			<!-- <div class="iqs-text text-body2">{{ ::'CONFIG_DOT_TRACES_DOWNLOADING_OBJECTS' | translate }} {{ $ctrl.progress }} 
+				{{ ::'CONFIG_DOT_TRACES_FROM' | translate }} {{ $ctrl.loadingObjectsCount }}
+			</div> -->
+			<div class="iqs-text text-body2">{{ ::'CONFIG_DOT_TRACES_DOWNLOADING_OBJECTS' | translate }}
+			</div>
+		</div>
+
+		<md-button class="flex-fixed md-warn" aria-label="current user" tabindex="-1" ng-click="$ctrl.onCancelClick()">
+			{{ ::'CANCEL' | translate}}
+		</md-button>
+	</div>
+</div>

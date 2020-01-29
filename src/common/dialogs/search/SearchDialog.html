@@ -1,0 +1,48 @@
+<md-dialog class="pip-dialog layout-column pip-scroll" style="height: 80%" width="400" md-theme="{{$ctrl.theme}}">
+    <div class="pip-header p16 divider-bottom">
+        <div class="w-stretch">
+            <h3 class="m0 bm8 w-stretch">{{ $ctrl.dialogTitle | translate }}</h3>
+            <iqs-global-search-panel iqs-search-query="$ctrl.search" iqs-search-callback="$ctrl.onSearchResult(query)"
+                                     iqs-placeholder="$ctrl.dialogSearch" iqs-search-collection="$ctrl.searchedCollection"
+                                     iqs-cancel-callback="$ctrl.onCanselSearch()">
+            </iqs-global-search-panel>
+        </div>
+    </div>
+    <div class="pip-body pip-scroll lp0 rp0" ng-if="$ctrl.results && $ctrl.results.length > 0">
+        <md-list class="pip-ref-list p0">
+            <md-list-item class="pip-ref-list-item divider-bottom" ng-class="{ 'iqs-object-select': $ctrl.selectedObject($index) }"
+                          ng-click="$ctrl.onItemClick($index)" ng-repeat="item in $ctrl.results">
+                <div class="pip-pic tm0" ng-if="$ctrl.isAvatar()">
+                    <pip-avatar class="pip-face" pip-rebind="true" pip-id="item.item.id || item.id" pip-name="item.item.name || item.item.model || item.name">
+                    </pip-avatar>
+                </div>
+                <div class="pip-content flex">
+                    <div class="text-body2 text-overflow">
+                        {{ item.item.name || item.item.udi || item.name }}
+                        <p class="pip-subtitle" ng-if="item.item.description || item.description || item.item.category || item.item.model || item.category">
+                            {{ (item.item.description || item.description || item.item.category || item.item.model ||
+                            item.category) | translate }}
+                        </p>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+    </div>
+
+    <div class="pip-body pip-scroll p0 layout-column layout-align-center-center" ng-if="!$ctrl.results || $ctrl.results.length === 0">
+        <div class="pip-empty bm24">
+            <img src="images/EmptyState.svg" class="pip-pic">
+            <div class="pip-text">
+                {{ $ctrl.noDataText | translate }}
+            </div>
+        </div>
+    </div>
+
+    <div class="pip-footer">
+        <div>
+            <md-button class="md-accent" ng-click="$ctrl.onClose()">{{::'CANCEL' | translate}}</md-button>
+            <md-button class="md-accent" ng-click="$ctrl.onChoose()" ng-disabled="$ctrl.index === null">{{::'CHOOSE' |
+                translate}}</md-button>
+        </div>
+    </div>
+</md-dialog>

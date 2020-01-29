@@ -1,0 +1,57 @@
+.iqs-time-autocomplete-panel {
+    width: 100%;
+    display: block;
+    md-input-container {
+        z-index: 92;
+        width: 100%;
+        input {
+            width: 100%;
+        }
+    }
+    .pip-time-autocomplete-container {
+        position: relative;
+        width: 100%;
+    }
+}
+
+.iqs-time-list-panel {
+    position: fixed;
+    background-color: $color-content;
+    z-index: 150;
+    min-height: 32px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+    .selected {
+        background-color: rgb(238, 238, 238) !important;
+    }
+    .pip-ref-list .pip-ref-list-item .pip-content {
+        max-width: 100%;
+    }
+}
+
+.iqs-time-list-panel ::-webkit-scrollbar {
+    width: 10px !important;
+    height: 10px !important;
+}
+
+.iqs-time-list-panel ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.iqs-time-list-panel ::-webkit-scrollbar-thumb {
+    background-color: darkgrey !important;
+    outline: 1px solid slategrey !important;
+}
+
+.iqs-time-backdrop {
+    z-index: 93;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,108 @@
+<div style=" position: absolute;
+    width: 100%; top: 0; left: 0; bottom: 0;" class="layout-column layout-align-center-center flex"
+     ng-class="{'iqs-small-container': !$ctrl.pipMedia('gt-sm')}">
+    <div class="flex w-stretch map-control-container" ng-if="$ctrl.state !== 'empty_map' && $ctrl.state !== 'progress'">
+        <md-progress-linear md-mode="indeterminate" class="dialog-progress-linear" ng-show="$ctrl.transaction.busy()"
+                            style="z-index: 100;">
+        </md-progress-linear>
+
+        <iqs-dot-traces-search-results-panel ng-if="$ctrl.configResults.length > 0 && $ctrl.configurated" iqs-search="$ctrl.searchCriteria"
+                                             iqs-on-search="$ctrl.onSearch()" iqs-variants="$ctrl.configResults">
+        </iqs-dot-traces-search-results-panel>
+
+        <div class="zoom-buttons" ng-if="$ctrl.pipMedia('gt-sm')">
+            <iqs-zoom-buttons-panel iqs-zoom-in="$ctrl.onZoomIn()" iqs-zoom-out="$ctrl.onZoomOut()"></iqs-zoom-buttons-panel>
+        </div>
+
+        <pip-map pip-options="$ctrl.map.configs">
+            <!-- Polygon zones -->
+            <pip-map-polygons pip-models="$ctrl.polygons" pip-options="$ctrl.zoneOptions">
+            </pip-map-polygons>
+            <!-- Line zones -->
+            <pip-map-polylines pip-models="$ctrl.lines" pip-options="$ctrl.zoneOptions">
+            </pip-map-polylines>
+            <!-- Circle zones -->
+            <pip-map-circles pip-models="$ctrl.circles" pip-options="$ctrl.zoneOptions"></pip-map-circles>
+
+            <pip-map-markers ng-if="$ctrl.points && $ctrl.points.length > 0" pip-models="$ctrl.points" pip-options="$ctrl.pointsOptions">
+            </pip-map-markers>
+
+            <pip-map-polylines ng-if="$ctrl.dottraces && $ctrl.dottraces.length > 0" pip-models="$ctrl.dottraces"
+                               pip-options="$ctrl.polylineOptions">
+            </pip-map-polylines>
+
+            <pip-map-markers ng-if="$ctrl.objectsHeads && $ctrl.objectsHeads.length > 0" pip-models="$ctrl.objectsHeads"
+                             pip-options="$ctrl.pointsOptions">
+            </pip-map-markers>
+        </pip-map>
+    </div>
+
+    <md-fab-speed-dial md-direction="up" pip-fab-tooltip-visibility="opened" pip-fab-show-tooltip="showTooltip" md-open="opened"
+                       ng-if="$ctrl.state !== 'empty_map' && $ctrl.configResults.length > 0 && $ctrl.configurated"
+                       style="z-index: 55" class="md-fling md-fab-bottom-right">
+        <md-fab-trigger>
+            <md-button aria-label="menu" class="md-fab md-accent">
+                <md-icon md-svg-icon="icons:target"></md-icon>
+            </md-button>
+        </md-fab-trigger>
+
+        <md-fab-actions>
+            <md-button aria-label="Objects" ng-click="$ctrl.onSearchObjectsClick()" class="md-fab md-accent md-raised md-mini">
+                <md-tooltip md-visible="showTooltip" md-direction="left">
+                    {{ ::'CONTROL_OBJECTS' | translate }}
+                </md-tooltip>
+                <md-icon md-svg-icon="iqs:object" aria-label="Objects"></md-icon>
+            </md-button>
+            <md-button aria-label="Zones" ng-click="$ctrl.onSearchGroupsClick()" class="md-fab md-accent md-raised md-mini">
+                <md-tooltip md-visible="showTooltip" md-direction="left">
+                    {{ ::'GROUPS' | translate }}
+                </md-tooltip>
+                <md-icon md-svg-icon="iqs:team" aria-label="Zones"></md-icon>
+            </md-button>
+        </md-fab-actions>
+    </md-fab-speed-dial>
+
+    <!--div class="dottraces-current-object layout-row bm24 lm16" ng-class="{'show': $ctrl.currentObject}" ng-if="$ctrl.state !== 'empty_map'">
+        <div class="pip-ref-item">
+            <div class="pip-pic">
+                <pip-avatar class="pip-face" pip-rebind="true" pip-id="$ctrl.currentObject.id || $ctrl.currentObject.object.id" pip-name="$ctrl.currentObject.name || $ctrl.currentObject.object.name">
+                </pip-avatar>
+            </div>
+            <div class="pip-content">
+                <p class="pip-title">{{ $ctrl.currentObject.name || $ctrl.currentObject.object.name }}</p>
+                <p class="pip-subtitle">{{ $ctrl.currentObject.category || $ctrl.currentObject.object.category }}</p>
+            </div>
+        </div>
+    </div-->
+
+    <div class="pip-empty" ng-if="$ctrl.state === 'empty_map'">
+        <img src="images/EmptyState.svg" class="pip-pic">
+        <div class="pip-text" ng-if="!$ctrl.isAdmin">
+            {{ ::'NO_MAP_DATA' | translate }}
+            <br> {{ ::'CONTACT_THE_ADMINISTRATOR' | translate }}
+        </div>
+        <div class="pip-text" ng-if="$ctrl.isAdmin">
+            {{ ::'NO_MAP_DATA' | translate }}
+            <br> {{ ::'CONFIG_GLOBAL_MAP_SETTINGS' | translate }}
+        </div>
+        <div class="pip-actions layout-row layout-align-end-center" ng-if="$ctrl.isAdmin">
+            <md-button class="color-accent-bg tm12 flex" aria-label="DOWNLOAD" ng-click="$ctrl.goToGlobalMapSettings()"
+                       ng-disabled="$ctrl.map.transaction.busy()">
+                {{ ::'GO_TO_GLOBAL_MAP_SETTINGS' | translate }}
+            </md-button>
+        </div>
+    </div>
+
+    <div class="pip-empty" ng-if="$ctrl.state === 'progress'">
+        <img src="images/ProgressState.svg" class="pip-pic">
+        <div class="pip-text">
+            {{ ::'MAP_LOADING' | translate }}
+            <md-progress-linear md-mode="indeterminate" class="tm24"></md-progress-linear>
+        </div>
+    </div>
+</div>
+
+<iqs-dottraces-data-time-panel ng-if="$ctrl.state !== 'empty_map' && $ctrl.state !== 'progress'" iqs-start-date="$ctrl.startDate" iqs-end-date="$ctrl.endDate"
+                               iqs-edit="$ctrl.onEditClick()" iqs-change="$ctrl.onChangeDate(startDate, endDate)"
+                               iqs-cancel="$ctrl.onDottraceCancel()">
+</iqs-dottraces-data-time-panel>

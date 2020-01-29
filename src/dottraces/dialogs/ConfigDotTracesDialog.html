@@ -1,0 +1,156 @@
+<md-dialog class="pip-dialog layout-column pip-scroll iqs-config-dot-traces" style="height: 65%" width="400" md-theme="{{$ctrl.theme}}">
+    <md-progress-linear md-mode="indeterminate" class="dialog-progress-linear" ng-show="$ctrl.state === 'progress'">
+    </md-progress-linear>
+    <div class="pip-header layout-column">
+        <h3 class="m0 bm16 w-stretch">{{ ::'CONFIG_DOT_TRACES_TITLE' | translate }}</h3>
+        <iqs-global-search-panel ng-if="$ctrl.dialogState === 'objects'" iqs-search-query="$ctrl.query"
+                                 iqs-search-callback="$ctrl.onSearchResult(query)" iqs-default-values="$ctrl.defaultCollection"
+                                 iqs-search-collection="$ctrl.searchedCollection" iqs-cancel-callback="$ctrl.onCanselSearch()">
+        </iqs-global-search-panel>
+    </div>
+    <div class="pip-body pip-scroll" ng-if="$ctrl.dialogState === 'dots'">
+
+        <!-- Time selection -->
+        <div class="layout-column layout-align-start-stretch">
+            <div class="flex">
+                <p class="color-error tm0" ng-if="$ctrl.dateError">
+                    {{ $ctrl.dateError | translate }}
+                </p>
+            </div>
+
+            <div class="flex layout-column layout-align-start-start">
+                <span class="flex" style="max-height: 18px;">{{ ::'CONFIG_DOT_TRACES_START' | translate }}</span>
+                <div class="flex layout-row w-stretch" style="max-height: 70px;">
+                    <md-input-container class="md-block flex bm0">
+                        <md-datepicker class="w-stretch " md-hide-icons="calendar" aria-label="TIME" ng-change="$ctrl.startDateTimeChanged($ctrl.startDate)"
+                                       ng-model="$ctrl.startDate" ng-disabled="$ctrl.isDisabled">
+                        </md-datepicker>
+                    </md-input-container>
+                    <div class="flex">
+                        <pip-time-autocomplete pip-time-label="false" pip-change-callback="$ctrl.startDateTimeChanged"
+                                               ng-disabled="false" pip-date-time="$ctrl.startDate" pip-time-step="'1'">
+                        </pip-time-autocomplete>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex layout-column layout-align-start-start">
+                <span class="flex" style="max-height: 18px;">{{ ::'CONFIG_DOT_TRACES_END' | translate }}</span>
+                <div class="flex layout-row w-stretch" style="max-height: 70px;">
+                    <md-input-container class="md-block flex bm0">
+                        <md-datepicker class="w-stretch " md-hide-icons="calendar" aria-label="TIME" ng-change="$ctrl.endDateTimeChanged($ctrl.endDate)"
+                                       ng-model="$ctrl.endDate" ng-disabled="$ctrl.isDisabled">
+                        </md-datepicker>
+                    </md-input-container>
+                    <div class="flex">
+                        <pip-time-autocomplete pip-time-label="false" pip-change-callback="$ctrl.endDateTimeChanged"
+                                               ng-disabled="false" pip-date-time="$ctrl.endDate" pip-time-step="'1'">
+                        </pip-time-autocomplete>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Time selection end -->
+
+        <!-- Observation objects -->
+
+        <div class="layout-row" style="margin-top: -16px">
+            <md-chips ng-model="$ctrl.chosenResults" md-on-select="$ctrl.onSelect()" md-on-remove="$ctrl.onAdd()"
+                      md-on-add="$ctrl.onAdd()" class="display flex" ng-disabled="$ctrl.transaction.busy()"
+                      md-autocomplete-snap md-require-match="true">
+                <md-autocomplete ng-disabled="$ctrl.transaction.busy()" class="text-subhead1" md-items="chip in $ctrl.getVariants($ctrl.search)"
+                                 md-selected-item='chip' md-search-text="$ctrl.search" md-menu-class="iqs-global-search-menu"
+                                 placeholder="{{::'CONFIG_DOT_TRACES_OBJECTS' | translate}}">
+                    <span md-highlight-text="$ctrl.search">{{ chip.name }}</span>
+                    <md-item-template>
+                        {{ chip.name }}
+                    </md-item-template>
+                </md-autocomplete>
+                <md-chip-template class="layout-row rm8">
+                    <pip-avatar class="pip-face rm8" pip-rebind="true" pip-id="$chip.id" pip-name="$chip.name">
+                    </pip-avatar>
+                    <span>
+                        {{ $chip.name }}
+                    </span>
+                </md-chip-template>
+            </md-chips>
+            <md-button class="md-icon-button flex-fixed tm8 rm0" ng-click="$ctrl.openObjectsAndGroupsState()">
+                <md-icon md-svg-icon="icons:search"></md-icon>
+            </md-button>
+        </div>
+
+        <!-- Observation objects end -->
+        <!-- <md-input-container class="md-block" ng-if="$ctrl.pointsCount > $ctrl.maxPointDownload && $ctrl.isDownload">
+            <md-select iqs-test-type class="flex" aria-label="DETALIZATION" 
+                    ng-model="$ctrl.detalizationLevel" ng-disabled="$ctrl.isDisabled" 
+                    placeholder="{{ ::'DOTTRACE_DETALISATION_LABEL' | translate }}" >
+                <md-option iqs-test-option-type ng-repeat="t in $ctrl.detalizationLevelCollection  track by $index" ng-value="t.id">
+                            {{ t.title | translate }}
+                </md-option>
+            </md-select>
+        </md-input-container> -->
+        <div class="flex lm8">
+            <p ng-class="{'color-error': $ctrl.showPointWarning }" ng-if="$ctrl.showPointWarning && $ctrl.chosenResults.length > 0 && $ctrl.state !== 'progress'">
+                {{ ::'CONFIG_DOT_TRACES_ALL' | translate }} - {{ $ctrl.pointsCount }}
+                <span ng-if="$ctrl.pointsCount > $ctrl.maxPointDownload">{{ ::'CONFIG_DOT_TRACES_RECOMENDATIONS' |
+                    translate }}</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="pip-body lp0 rp0" ng-if="$ctrl.dialogState === 'objects'">
+        <md-list class="pip-ref-list tp0" ng-if="$ctrl.collection.length > 0">
+            <md-list-item class="pip-ref-list-item divider-bottom" md-ink-ripple ng-repeat="section in $ctrl.collection track by $index"
+                          ng-click="$ctrl.selectItem($index)">
+                <div class="layout-row w-stretch layout-align-start-center">
+                    <div class="pip-pic tm0 flex-fixed" ng-if="section.item.id || section.item.name">
+                        <pip-avatar class="pip-face" pip-rebind="true" pip-id="section.item.id" pip-name="section.item.name"></pip-avatar>
+                    </div>
+                    <div class="pip-content flex" ng-class="{'content-single': ($ctrl.entityType == 'control_object' || $ctrl.entityType == 'objects_and_groups') && section.object_type != $ctrl.objectType }">
+                        <p class="pip-title text-overflow flex">
+                            {{ section.item.name }}
+                        </p>
+                        <p class="pip-subtitle text-overflow flex" ng-if="($ctrl.entityType == 'control_object' || $ctrl.entityType == 'objects_and_groups') && section.object_type == $ctrl.objectType">
+                            {{ section.item | formatObjectSubtitle }}
+                        </p>
+                    </div>
+                    <div class="flex-fixed">
+                        <md-checkbox ng-model="section.checked" class="bm0">
+                        </md-checkbox>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+
+        <div class="pip-empty bm24" ng-if="$ctrl.collection.length === 0">
+            <img src="images/EmptyState.svg" class="pip-pic">
+            <div class="pip-text">
+                {{ ::'SEARCH_DIALOG_NO_OBJECTS' | translate }}
+            </div>
+        </div>
+    </div>
+
+    <div class="pip-footer layout-row layout-align-start-center lp16">
+        <!-- <div class="flex lm8">
+            <p ng-class="{'color-error': $ctrl.showPointWarning }" 
+                ng-if="$ctrl.showPointWarning && $ctrl.chosenResults.length > 0 && $ctrl.state !== 'progress'">
+                {{ ::'CONFIG_DOT_TRACES_ALL' | translate }} - {{ $ctrl.pointsCount }} 
+                <span ng-if="$ctrl.pointsCount > $ctrl.maxPointDownload">{{ ::'CONFIG_DOT_TRACES_RECOMENDATIONS' | translate }}</span>
+            </p>
+        </div> -->
+        <div class="flex-fixed">
+            <md-button class="md-accent" ng-click="$ctrl.onCancelClick()">{{ ::'CANCEL' | translate }}</md-button>
+            <md-button class="md-accent" ng-click="$ctrl.onDownloadClick()" ng-if="$ctrl.dialogState === 'dots' && !$ctrl.showPointWarning"
+                       ng-disabled="$ctrl.dateError  || $ctrl.state === 'progress' || $ctrl.chosenResults.length == 0">
+                {{ ::'CONFIG_DOT_TRACES_DOWNLOAD' | translate }}
+            </md-button>
+            <md-button class="md-accent" ng-click="$ctrl.onDownloadAllClick()" ng-if="$ctrl.dialogState === 'dots' && $ctrl.showPointWarning"
+                       ng-disabled="$ctrl.dateError  || $ctrl.state === 'progress' || $ctrl.chosenResults.length == 0">
+                {{ ::'CONFIG_DOT_TRACES_DOWNLOAD_ALL' | translate }}
+            </md-button>
+            <md-button class="md-accent" ng-click="$ctrl.onSetObjectsClick()" ng-if="$ctrl.dialogState === 'objects'">
+                {{ ::'CONFIG_DOT_TRACES_SET' | translate }}
+            </md-button>
+        </div>
+    </div>
+</md-dialog>
